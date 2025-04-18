@@ -8,11 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextPositionSelector } from "./text-position-selector";
 import { Minus, Plus } from "lucide-react";
 import { UseThumbnailUploadResult } from "../hooks/use-thumbnail-upload";
-import {
-  TextAlignment,
-  TextPosition,
-  UseThumbnailTextResult,
-} from "../hooks/use-thumbnail-text";
+import { UseThumbnailTextResult } from "../hooks/use-thumbnail-text";
 import { FontSelectionProps } from "../types"; // Import from new types file
 
 interface ThumbnailControlsProps {
@@ -24,9 +20,8 @@ interface ThumbnailControlsProps {
 export const ThumbnailControls = ({
   upload,
   textControls,
-  fontSelection,
 }: ThumbnailControlsProps) => {
-  const { handleSelectImage, position, updatePosition, selectedImage } = upload;
+  const { position, updatePosition, selectedImage } = upload;
   const { text, updateText } = textControls;
 
   return (
