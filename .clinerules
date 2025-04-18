@@ -1,0 +1,44 @@
+## General Guidelines
+- prefer pnpm for installs
+- focus on code changes, optimization and new code generation
+- Focus on meaningful code changes specific to user requests. 
+
+## Next JS App Guidelines
+- Follow clean coding principles
+- Code should be type safe
+- Use professional and clear comments where helpful
+- use shadcn components wherever possible
+- prefer lucide react icons
+- Assume next-themes is implemented and dark mode is default
+- Use tailwind classes
+- Prefer tailwind colors over custom css colors
+- Assume app uses src dir 
+- Assume app uses app router
+- Assume all components must look good in either dark or light mode
+- Page routes should remain server components
+- Client-side functionality should be implemented in client components within feature folders
+- Feature UI components should be client components
+- State management and interactivity should be handled in client components
+
+## Next JS App Architecture Guidelines
+- Prefer feature module pattern: /src/app/features/[feature-name]
+- Use Repository, Service, Hooks pattern where appropriate
+- Repositories and Services should implement interfaces
+- Use Zod for type inference and validation where appropriate
+- Assume mock data should be generated in sufficient quantity to thoroughly test and review the feature requested. A mock data repository is the suggested approach.
+
+## Import Guidelines
+- Use @/ alias for all imports from the src directory
+- Example: import { Button } from "'components/ui/button"' (see below for file content)
+- The @/ alias is properly configured in tsconfig.json
+- Avoid relative paths for imports from src directory
+- Keep imports organized and grouped by type (external, internal, etc.)
+
+FEATURE FOLDER EXAMPLE
+src/app/features/[feature-name]/
+├── components/
+├── hooks/
+├── repository/
+├── service/
+├── types/
+└── utils/
