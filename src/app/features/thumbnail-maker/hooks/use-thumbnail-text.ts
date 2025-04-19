@@ -15,10 +15,7 @@ export interface ThumbnailText {
     title: number;
     subtitle: number;
   };
-  caps: {
-    title: boolean;
-    subtitle: boolean;
-  };
+  // Removed caps property
   color: {
     title: string;
     subtitle: string;
@@ -44,13 +41,10 @@ export const useThumbnailText = (): UseThumbnailTextResult => {
       alignment: "left",
       position: "bottom",
       fontSize: {
-        title: 105,
-        subtitle: 62,
+        title: 100, // Adjusted default to multiple of 10
+        subtitle: 60, // Adjusted default to multiple of 10
       },
-      caps: {
-        title: false,
-        subtitle: false,
-      },
+      // Removed caps from initial state
       color: {
         title: "#d4d4d8",
         subtitle: "#d4d4d8",

@@ -110,7 +110,8 @@ export const ThumbnailPreview = ({
         const combinedHeight =
           text.fontSize.title + titleSubtitleGap + text.fontSize.subtitle;
         const middleY = canvas.height / 2;
-        titleY = middleY - combinedHeight / 2 + text.fontSize.title;
+        // Correctly calculate titleY for middle position
+        titleY = middleY - combinedHeight / 2;
         subtitleY = titleY + titleSubtitleGap + text.fontSize.subtitle;
         break;
       default: // bottom
@@ -139,60 +140,18 @@ export const ThumbnailPreview = ({
     ctx.font = `${
       fontSelection.selection.title.weight === 900 ? "900" : "normal"
     } ${text.fontSize.title}px ${titleFont.style.fontFamily}`;
-    // Draw title with letter spacing for caps
-    const titleText = text.caps.title ? text.title.toUpperCase() : text.title;
-    if (text.caps.title) {
-      const chars = titleText.split("");
-      const spacing = text.fontSize.title * 0.03;
-      let currentX = xPos;
+    // Draw title
+    ctx.fillText(text.title, xPos, titleY);
 
-      if (text.alignment === "right") {
-        const totalWidth = (chars.length - 1) * spacing;
-        currentX -= totalWidth;
-      } else if (text.alignment === "center") {
-        const totalWidth = (chars.length - 1) * spacing;
-        currentX -= totalWidth / 2;
-      }
-
-      chars.forEach((char) => {
-        ctx.fillText(char, currentX, titleY);
-        currentX += ctx.measureText(char).width + spacing;
-      });
-    } else {
-      ctx.fillText(titleText, xPos, titleY);
-    }
-
-    // Draw subtitle with color and letter spacing for caps
+    // Draw subtitle with color
     ctx.fillStyle = text.color.subtitle;
     const subtitleFont =
       fontMap[fontSelection.selection.subtitle.family as keyof typeof fontMap];
     ctx.font = `${
       fontSelection.selection.subtitle.weight === 900 ? "900" : "normal"
     } ${text.fontSize.subtitle}px ${subtitleFont.style.fontFamily}`;
-
-    const subtitleText = text.caps.subtitle
-      ? text.subtitle.toUpperCase()
-      : text.subtitle;
-    if (text.caps.subtitle) {
-      const chars = subtitleText.split("");
-      const spacing = text.fontSize.subtitle * 0.03;
-      let currentX = xPos;
-
-      if (text.alignment === "right") {
-        const totalWidth = (chars.length - 1) * spacing;
-        currentX -= totalWidth;
-      } else if (text.alignment === "center") {
-        const totalWidth = (chars.length - 1) * spacing;
-        currentX -= totalWidth / 2;
-      }
-
-      chars.forEach((char) => {
-        ctx.fillText(char, currentX, subtitleY);
-        currentX += ctx.measureText(char).width + spacing;
-      });
-    } else {
-      ctx.fillText(subtitleText, xPos, subtitleY);
-    }
+    // Draw subtitle
+    ctx.fillText(text.subtitle, xPos, subtitleY);
 
     // Reset shadow after drawing all text
     ctx.shadowColor = "transparent";

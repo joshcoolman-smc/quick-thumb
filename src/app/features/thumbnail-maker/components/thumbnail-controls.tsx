@@ -92,7 +92,7 @@ export const ThumbnailControls = ({
                 <div className="flex items-center gap-2 flex-1">
                   <Input
                     type="color"
-                    className="h-4 w-4 rounded-full border border-zinc-200 dark:border-zinc-800 p-0 overflow-hidden [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:border-none"
+                    className="h-8 w-8 rounded-full border border-zinc-200 dark:border-zinc-800 p-0 overflow-hidden [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:border-none"
                     value={text.color.title}
                     style={{ backgroundColor: text.color.title }}
                     onChange={(e) =>
@@ -103,82 +103,61 @@ export const ThumbnailControls = ({
                   />
                   <div className="flex-1">
                     <Input
+                      className="rounded"
                       value={text.title}
                       onChange={(e) => updateText({ title: e.target.value })}
                       placeholder="Video Title"
                     />
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1 flex-row items-center">
                     <Button
-                      variant="outline"
                       size="icon"
-                      className="h-6 w-6"
+                      variant="secondary"
+                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
                       onClick={() => {
-                        const fontSizes = [
-                          48, 62, 81, 105, 137, 178, 231, 243, 255, 268, 281,
-                        ];
                         const currentSize = text.fontSize.title;
-                        const currentIndex = fontSizes.indexOf(currentSize);
-                        const newIndex = Math.max(currentIndex - 1, 0);
+                        const newSize = Math.max(30, currentSize - 10); // Min size 30, decrement by 10
                         updateText({
                           fontSize: {
                             ...text.fontSize,
-                            title: fontSizes[newIndex],
+                            title: newSize,
                           },
                         });
                       }}
-                      disabled={text.fontSize.title === 48}
+                      disabled={text.fontSize.title <= 70} // Disable if at or below min
                     >
                       <Minus className="h-3 w-3" />
                     </Button>
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       size="icon"
-                      className="h-6 w-6"
+                      className="rounded bg-zinc-700 hover:bg-zinc-600 hover:cursor-pointer"
                       onClick={() => {
-                        const fontSizes = [
-                          48, 62, 81, 105, 137, 178, 231, 243, 255, 268, 281,
-                        ];
                         const currentSize = text.fontSize.title;
-                        const currentIndex = fontSizes.indexOf(currentSize);
-                        const newIndex = Math.min(
-                          currentIndex + 1,
-                          fontSizes.length - 1
-                        );
+                        const newSize = Math.min(280, currentSize + 10); // Max size 280, increment by 10
                         updateText({
                           fontSize: {
                             ...text.fontSize,
-                            title: fontSizes[newIndex],
+                            title: newSize,
                           },
                         });
                       }}
-                      disabled={text.fontSize.title === 281}
+                      disabled={text.fontSize.title >= 280} // Disable if at or above max
                     >
                       <Plus className="h-3 w-3" />
                     </Button>
+                    <span className="text-sm text-muted-foreground  text-center w-8">
+                      {text.fontSize.title}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="title-caps"
-                    className="text-sm font-medium leading-none"
-                  >
-                    Caps
-                  </label>
-                  <Switch
-                    id="title-caps"
-                    checked={text.caps.title}
-                    onCheckedChange={(checked) =>
-                      updateText({ caps: { ...text.caps, title: checked } })
-                    }
-                  />
-                </div>
+                {/* Removed Caps Switch for Title */}
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 flex-1">
                   <Input
                     type="color"
-                    className="h-4 w-4 rounded-full border border-zinc-200 dark:border-zinc-800 p-0 overflow-hidden [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:border-none"
+                    className="h-8 w-8 rounded-full border border-zinc-200 dark:border-zinc-800 p-0 overflow-hidden [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:border-none"
                     value={text.color.subtitle}
                     style={{ backgroundColor: text.color.subtitle }}
                     onChange={(e) =>
@@ -190,75 +169,55 @@ export const ThumbnailControls = ({
                   <div className="flex-1">
                     <Input
                       value={text.subtitle}
+                      className="rounded"
                       onChange={(e) => updateText({ subtitle: e.target.value })}
                       placeholder="Subtitle of the video here"
                     />
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex flex-row items-center gap-1">
                     <Button
-                      variant="outline"
                       size="icon"
-                      className="h-6 w-6"
+                      variant="secondary"
+                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
                       onClick={() => {
-                        const fontSizes = [
-                          48, 62, 81, 105, 137, 178, 231, 243, 255, 268, 281,
-                        ];
                         const currentSize = text.fontSize.subtitle;
-                        const currentIndex = fontSizes.indexOf(currentSize);
-                        const newIndex = Math.max(currentIndex - 1, 0);
+                        const newSize = Math.max(30, currentSize - 10); // Min size 30, decrement by 10
                         updateText({
                           fontSize: {
                             ...text.fontSize,
-                            subtitle: fontSizes[newIndex],
+                            subtitle: newSize,
                           },
                         });
                       }}
-                      disabled={text.fontSize.subtitle === 48}
+                      disabled={text.fontSize.subtitle <= 30} // Disable if at or below min
                     >
                       <Minus className="h-3 w-3" />
                     </Button>
+
                     <Button
-                      variant="outline"
                       size="icon"
-                      className="h-6 w-6"
+                      variant="secondary"
+                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
                       onClick={() => {
-                        const fontSizes = [
-                          48, 62, 81, 105, 137, 178, 231, 243, 255, 268, 281,
-                        ];
                         const currentSize = text.fontSize.subtitle;
-                        const currentIndex = fontSizes.indexOf(currentSize);
-                        const newIndex = Math.min(
-                          currentIndex + 1,
-                          fontSizes.length - 1
-                        );
+                        const newSize = Math.min(280, currentSize + 10); // Max size 280, increment by 10
                         updateText({
                           fontSize: {
                             ...text.fontSize,
-                            subtitle: fontSizes[newIndex],
+                            subtitle: newSize,
                           },
                         });
                       }}
-                      disabled={text.fontSize.subtitle === 281}
+                      disabled={text.fontSize.subtitle >= 280} // Disable if at or above max
                     >
                       <Plus className="h-3 w-3" />
                     </Button>
+                    <span className="text-sm text-muted-foreground  text-center w-8">
+                      {text.fontSize.subtitle}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="subtitle-caps"
-                    className="text-sm font-medium leading-none"
-                  >
-                    Caps
-                  </label>
-                  <Switch
-                    id="subtitle-caps"
-                    checked={text.caps.subtitle}
-                    onCheckedChange={(checked) =>
-                      updateText({ caps: { ...text.caps, subtitle: checked } })
-                    }
-                  />
-                </div>
+                {/* Removed Caps Switch for Subtitle */}
               </div>
             </div>
 
