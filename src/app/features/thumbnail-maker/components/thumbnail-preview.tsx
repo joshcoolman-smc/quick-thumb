@@ -63,18 +63,20 @@ export const ThumbnailPreview = ({
       // Draw the image
       ctx.drawImage(selectedImage, x, y, drawWidth, drawHeight);
 
-      // Draw gradient overlay
-      const gradient = ctx.createLinearGradient(
-        0,
-        canvas.height - (canvas.height * text.gradient.transparentStop) / 100, // Start at the transparent stop point
-        0,
-        canvas.height // End at bottom
-      );
-      gradient.addColorStop(0, "rgba(0,0,0,0)"); // Transparent at top
-      gradient.addColorStop(1, "rgba(0,0,0,0.8)"); // 80% black at bottom
+      // Draw gradient overlay (only if transparentStop > 0)
+      if (text.gradient.transparentStop > 0) {
+        const gradient = ctx.createLinearGradient(
+          0,
+          canvas.height - (canvas.height * text.gradient.transparentStop) / 100, // Start at the transparent stop point
+          0,
+          canvas.height // End at bottom
+        );
+        gradient.addColorStop(0, "rgba(0,0,0,0)"); // Transparent at top
+        gradient.addColorStop(1, "rgba(0,0,0,0.8)"); // 80% black at bottom
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
     }
 
     // Draw text overlay (on top of gradient)
@@ -89,7 +91,10 @@ export const ThumbnailPreview = ({
         : canvas.width / 2;
 
     // Calculate dynamic spacing based on font sizes
-    const margin = 50;
+    const margin = {
+      top: 30, // Reduced from 50 to move text higher
+      bottom: 50,
+    };
     // Calculate dynamic gap that decreases as subtitle size increases
     const titleSubtitleGap = Math.max(
       6,
@@ -102,36 +107,26 @@ export const ThumbnailPreview = ({
 
     switch (text.position) {
       case "top":
-        titleY = margin + text.fontSize.title;
+        titleY = margin.top + text.fontSize.title * 0.8; // Multiply by 0.8 to account for font metrics
         subtitleY = titleY + titleSubtitleGap + text.fontSize.subtitle;
         break;
       case "middle":
-        // Center the combined text block vertically
-        const combinedHeight =
-          text.fontSize.title + titleSubtitleGap + text.fontSize.subtitle;
+        // Position title baseline slightly below vertical center
         const middleY = canvas.height / 2;
-        // Correctly calculate titleY for middle position
-        titleY = middleY - combinedHeight / 2;
+        titleY = middleY + text.fontSize.title * 0.2; // Move baseline down by 20% of title font size
         subtitleY = titleY + titleSubtitleGap + text.fontSize.subtitle;
         break;
       default: // bottom
-        subtitleY = canvas.height - margin;
+        subtitleY = canvas.height - margin.bottom;
         titleY = subtitleY - titleSubtitleGap - text.fontSize.subtitle;
         break;
     }
 
-    // Configure text shadow if enabled
-    if (text.shadow.enabled) {
-      ctx.shadowColor = "rgba(0, 0, 0, 0.75)";
-      ctx.shadowBlur = 3;
-      ctx.shadowOffsetX = 3;
-      ctx.shadowOffsetY = 3;
-    } else {
-      ctx.shadowColor = "transparent";
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
-    }
+    // Always apply text shadow
+    ctx.shadowColor = "rgba(0, 0, 0, 0.75)";
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
 
     // Draw title with color
     ctx.fillStyle = text.color.title;
@@ -152,12 +147,6 @@ export const ThumbnailPreview = ({
     } ${text.fontSize.subtitle}px ${subtitleFont.style.fontFamily}`;
     // Draw subtitle
     ctx.fillText(text.subtitle, xPos, subtitleY);
-
-    // Reset shadow after drawing all text
-    ctx.shadowColor = "transparent";
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
   }, [selectedImage, position, text, fontSelection]);
 
   return (

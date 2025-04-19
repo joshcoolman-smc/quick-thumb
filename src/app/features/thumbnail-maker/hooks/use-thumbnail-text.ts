@@ -23,9 +23,6 @@ export interface ThumbnailText {
   gradient: {
     transparentStop: number; // percentage from bottom where gradient becomes transparent
   };
-  shadow: {
-    enabled: boolean;
-  };
 }
 
 export interface UseThumbnailTextResult {
@@ -51,9 +48,6 @@ export const useThumbnailText = (): UseThumbnailTextResult => {
       },
       gradient: {
         transparentStop: 40, // default 40% from bottom
-      },
-      shadow: {
-        enabled: true, // default enabled for better readability
       },
     })
   );

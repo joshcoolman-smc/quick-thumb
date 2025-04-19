@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -221,39 +220,7 @@ export const ThumbnailControls = ({
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium leading-none">
-                  Gradient Height
-                </label>
-                <Slider
-                  value={[text.gradient.transparentStop]}
-                  onValueChange={([transparentStop]) =>
-                    updateText({ gradient: { transparentStop } })
-                  }
-                  min={20}
-                  max={150}
-                  step={1}
-                  className="py-2"
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="text-shadow"
-                  className="text-sm font-medium leading-none"
-                >
-                  Text Shadow
-                </label>
-                <Switch
-                  id="text-shadow"
-                  checked={text.shadow.enabled}
-                  onCheckedChange={(enabled) =>
-                    updateText({ shadow: { enabled } })
-                  }
-                />
-              </div>
-
+            <div className="space-y-12 mt-6">
               <div className="flex justify-center">
                 <div className="flex flex-col items-center gap-1.5">
                   <TextPositionSelector
@@ -268,6 +235,21 @@ export const ThumbnailControls = ({
                   </span>
                 </div>
               </div>
+            </div>
+            <div className="flex flex-row items-center gap-2">
+              <label className="text-sm font-medium leading-none">
+                Gradient
+              </label>
+              <Slider
+                value={[text.gradient.transparentStop]}
+                onValueChange={([transparentStop]) =>
+                  updateText({ gradient: { transparentStop } })
+                }
+                min={0}
+                max={150}
+                step={1}
+                className="py-2"
+              />
             </div>
           </div>
         </TabsContent>
