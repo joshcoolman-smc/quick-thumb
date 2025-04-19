@@ -1,11 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextPositionSelector } from "./text-position-selector";
-import { Minus, Plus } from "lucide-react";
+import { NumberStepper } from "@/components/ui/number-stepper";
 import { UseThumbnailUploadResult } from "../hooks/use-thumbnail-upload";
 import { UseThumbnailTextResult } from "../hooks/use-thumbnail-text";
 import { FontSelectionProps } from "../types"; // Import from new types file
@@ -108,47 +107,20 @@ export const ThumbnailControls = ({
                       placeholder="Video Title"
                     />
                   </div>
-                  <div className="flex gap-1 flex-row items-center">
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
-                      onClick={() => {
-                        const currentSize = text.fontSize.title;
-                        const newSize = Math.max(30, currentSize - 10); // Min size 30, decrement by 10
-                        updateText({
-                          fontSize: {
-                            ...text.fontSize,
-                            title: newSize,
-                          },
-                        });
-                      }}
-                      disabled={text.fontSize.title <= 70} // Disable if at or below min
-                    >
-                      <Minus className="h-3 w-3" />
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="icon"
-                      className="rounded bg-zinc-700 hover:bg-zinc-600 hover:cursor-pointer"
-                      onClick={() => {
-                        const currentSize = text.fontSize.title;
-                        const newSize = Math.min(280, currentSize + 10); // Max size 280, increment by 10
-                        updateText({
-                          fontSize: {
-                            ...text.fontSize,
-                            title: newSize,
-                          },
-                        });
-                      }}
-                      disabled={text.fontSize.title >= 280} // Disable if at or above max
-                    >
-                      <Plus className="h-3 w-3" />
-                    </Button>
-                    <span className="text-sm text-muted-foreground  text-center w-8">
-                      {text.fontSize.title}
-                    </span>
-                  </div>
+                  <NumberStepper
+                    min={30}
+                    max={280}
+                    increment={10}
+                    currentValue={text.fontSize.title}
+                    onValueChange={(newSize: number) =>
+                      updateText({
+                        fontSize: {
+                          ...text.fontSize,
+                          title: newSize,
+                        },
+                      })
+                    }
+                  />
                 </div>
                 {/* Removed Caps Switch for Title */}
               </div>
@@ -173,69 +145,34 @@ export const ThumbnailControls = ({
                       placeholder="Subtitle of the video here"
                     />
                   </div>
-                  <div className="flex flex-row items-center gap-1">
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
-                      onClick={() => {
-                        const currentSize = text.fontSize.subtitle;
-                        const newSize = Math.max(30, currentSize - 10); // Min size 30, decrement by 10
-                        updateText({
-                          fontSize: {
-                            ...text.fontSize,
-                            subtitle: newSize,
-                          },
-                        });
-                      }}
-                      disabled={text.fontSize.subtitle <= 30} // Disable if at or below min
-                    >
-                      <Minus className="h-3 w-3" />
-                    </Button>
-
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="rounded bg-zinc-700 hover:bg-zinc-600 "
-                      onClick={() => {
-                        const currentSize = text.fontSize.subtitle;
-                        const newSize = Math.min(280, currentSize + 10); // Max size 280, increment by 10
-                        updateText({
-                          fontSize: {
-                            ...text.fontSize,
-                            subtitle: newSize,
-                          },
-                        });
-                      }}
-                      disabled={text.fontSize.subtitle >= 280} // Disable if at or above max
-                    >
-                      <Plus className="h-3 w-3" />
-                    </Button>
-                    <span className="text-sm text-muted-foreground  text-center w-8">
-                      {text.fontSize.subtitle}
-                    </span>
-                  </div>
+                  <NumberStepper
+                    min={30}
+                    max={280}
+                    increment={10}
+                    currentValue={text.fontSize.subtitle}
+                    onValueChange={(newSize: number) =>
+                      updateText({
+                        fontSize: {
+                          ...text.fontSize,
+                          subtitle: newSize,
+                        },
+                      })
+                    }
+                  />
                 </div>
                 {/* Removed Caps Switch for Subtitle */}
               </div>
             </div>
-
-            <div className="space-y-12 mt-6">
-              <div className="flex justify-center">
-                <div className="flex flex-col items-center gap-1.5">
-                  <TextPositionSelector
-                    alignment={text.alignment}
-                    position={text.position}
-                    onPositionChange={(alignment, position) =>
-                      updateText({ alignment, position })
-                    }
-                  />
-                  <span className="text-xs text-muted-foreground">
-                    Text Position
-                  </span>
-                </div>
-              </div>
+            <div className="flex justify-center">
+              <TextPositionSelector
+                alignment={text.alignment}
+                position={text.position}
+                onPositionChange={(alignment, position) =>
+                  updateText({ alignment, position })
+                }
+              />
             </div>
+
             <div className="flex flex-row items-center gap-2">
               <label className="text-sm font-medium leading-none">
                 Gradient
